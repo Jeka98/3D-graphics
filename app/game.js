@@ -23,9 +23,11 @@ const init = () => {
 	camera.position.x = 80;
 	camera.position.y = 30;
 	camera.position.z = -30;
+	camera.position.z = 2
 	camera.lookAt(scene.position);
 	scene.add( camera );
-	
+
+
 	const renderer = new THREE.WebGLRenderer();
 	renderer.setClearColor( 0xEEEEEE, 1 );
 	renderer.setSize( window.innerWidth, window.innerHeight );
@@ -85,7 +87,6 @@ const init = () => {
 	
 	scene.add( spotLight );
 	
-		
 	
 	const loadHelpers = () => {
 		const axesHelper = new THREE.AxesHelper( 25 );
@@ -103,6 +104,7 @@ const init = () => {
 	
 	const renderScene = () => {
 		stats.update();
+		controls.update();
 
 		box.rotation.x += 0.02;
 		box.rotation.y += 0.02;
@@ -116,6 +118,18 @@ const init = () => {
 		requestAnimationFrame(renderScene);
 		renderer.render(scene, camera);
 	}
+
+	const controls = new THREE.OrbitControls(camera, renderer.domElement);
+	controls.enableDamping = true;
+	controls.dampingFactor = 0.05;
+
+	controls.screenSpacePanning = false;
+
+	controls.minDistance = 100;
+	controls.maxDistance = 500;
+
+	controls.maxPolarAngle = Math.PI / 2;
+
 
 	loadHelpers();
 	renderScene();
