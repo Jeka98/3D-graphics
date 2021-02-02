@@ -102,15 +102,31 @@ const init = () => {
 		scene.add( cameraHelper );
 	}
 	
+
+	const boxControls = new function() {
+		this.rotationSpeed = 0.02;
+		this.bouncingSpeed = 0.03;
+	}
+
+	const gui = new dat.GUI();
+
+	gui.add(boxControls, 'rotationSpeed', 0, 0.5);
+	gui.add(boxControls, 'bouncingSpeed', 0, 0.5);
+
+
 	const renderScene = () => {
 		stats.update();
-		controls.update();
+		orbitControls.update();
 
-		box.rotation.x += 0.02;
-		box.rotation.y += 0.02;
-		box.rotation.z += 0.02;
+		box.rotation.x += boxControls.rotationSpeed;
+		box.rotation.y += boxControls.rotationSpeed;
+		box.rotation.z += boxControls.rotationSpeed;
 
-		step += 0.04;
+		// box.rotation.x += 0.02;
+		// box.rotation.y += 0.02;
+		// box.rotation.z += 0.02;
+
+		step += boxControls.bouncingSpeed;
 
 		box.position.x = 20 + (10 * (Math.cos(step)));
 		box.position.y = 2 +(15 * Math.abs(Math.sin(step)));
@@ -119,16 +135,16 @@ const init = () => {
 		renderer.render(scene, camera);
 	}
 
-	const controls = new THREE.OrbitControls(camera, renderer.domElement);
-	controls.enableDamping = true;
-	controls.dampingFactor = 0.05;
+	const orbitControls = new THREE.OrbitControls(camera, renderer.domElement);
+	orbitControls.enableDamping = true;
+	orbitControls.dampingFactor = 0.05;
 
-	controls.screenSpacePanning = false;
+	orbitControls.screenSpacePanning = false;
 
-	controls.minDistance = 100;
-	controls.maxDistance = 500;
+	orbitControls.minDistance = 100;
+	orbitControls.maxDistance = 500;
 
-	controls.maxPolarAngle = Math.PI / 2;
+	orbitControls.maxPolarAngle = Math.PI / 2;
 
 
 	loadHelpers();
